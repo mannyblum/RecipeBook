@@ -1,7 +1,43 @@
+import RecipeBook from "./components/RecipeBook";
+
+// 1. 🔍 Search Functionality
+//  [ ] Input field to search recipes by keyword (e.g. “chicken”, “pasta”)
+//  [ ] Submit button or search-on-type functionality (debounced)
+//  [ ] Handle empty or invalid searches (show appropriate message)
+//
+// 2. 🌐 API Integration
+//  [ ] Use a free public recipe API (e.g. TheMealDB or Edamam)
+//  [ ] Make API call on search submission
+//  [ ] Show a loading indicator while fetching data
+//  [ ] Display a friendly message if no results are found
+//
+// 3. 📄 Results Display
+//  [ ] Render a list/grid of recipe cards:
+//  [ ] Recipe image (thumbnail)
+//  [ ] Recipe title
+//  [ ] Short summary or category (if available)
+//  [ ] Make sure the results are responsive (mobile-first)
+//
+// 4. 🔗 Recipe Detail View
+//  [ ] Clicking a recipe opens a detailed view (modal, drawer, or separate page/route):
+//  [ ] Full recipe title
+//  [ ] Full-size image
+//  [ ] List of ingredients
+//  [ ] Instructions or cooking steps
+//  [ ] Optional: video or source link (if available)
+//  [ ] "Back to search results" button or modal close
+//
+// 5. 🧠 State Management
+//  [ ] Store:
+//  [ ] Search query
+//  [ ] List of search results
+//  [ ] Selected recipe (for detailed view)
+//  [ ] Handle edge cases (e.g., no recipe selected, API errors, loading state)
+
 function App() {
   return (
-    <div className="bg-amber-500">
-      <div className="text-black text-2xl">RecipeBook</div>
+    <div className="bg-amber-50 h-screen py-20">
+      <RecipeBook />
     </div>
   );
 }
