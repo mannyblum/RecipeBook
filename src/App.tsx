@@ -1,13 +1,23 @@
 import RecipeBook from "./components/RecipeBook";
 
+function App() {
+  return (
+    <div className="bg-amber-50 h-screen py-20">
+      <RecipeBook />
+    </div>
+  );
+}
+
+export default App;
+
 // 1. 🔍 Search Functionality
-//  [ ] Input field to search recipes by keyword (e.g. “chicken”, “pasta”)
+//  [x] Input field to search recipes by keyword (e.g. “chicken”, “pasta”)
 //  [ ] Submit button or search-on-type functionality (debounced)
 //  [ ] Handle empty or invalid searches (show appropriate message)
 //
 // 2. 🌐 API Integration
-//  [ ] Use a free public recipe API (e.g. TheMealDB or Edamam)
-//  [ ] Make API call on search submission
+//  [x] Use a free public recipe API (e.g. TheMealDB or Edamam)
+//  [x] Make API call on search submission
 //  [ ] Show a loading indicator while fetching data
 //  [ ] Display a friendly message if no results are found
 //
@@ -33,13 +43,3 @@ import RecipeBook from "./components/RecipeBook";
 //  [ ] List of search results
 //  [ ] Selected recipe (for detailed view)
 //  [ ] Handle edge cases (e.g., no recipe selected, API errors, loading state)
-
-function App() {
-  return (
-    <div className="bg-amber-50 h-screen py-20">
-      <RecipeBook />
-    </div>
-  );
-}
-
-export default App;

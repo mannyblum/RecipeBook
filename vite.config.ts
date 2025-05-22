@@ -6,6 +6,15 @@ import path from "path";
 
 // https://vitejs.dev/config/
 export default defineConfig({
+  server: {
+    proxy: {
+      "/mealdb": {
+        target: "http://www.themealdb.com/api/json/v1/1",
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/mealdb/, ""),
+      },
+    },
+  },
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),

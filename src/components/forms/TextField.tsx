@@ -18,7 +18,6 @@ const TextField = ({
   // const handleKeyDown = (e: KeyboardEventHandler<HTMLInputElement>) => {
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
-      console.log("do validate");
       onKeyDown();
     }
   };
