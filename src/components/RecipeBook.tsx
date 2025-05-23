@@ -9,6 +9,7 @@ import TextField from "./forms/TextField";
 import searchQueryOptions, {
   type Meal,
 } from "../queryOptions/searchQueryOptions";
+import { DotFillIcon } from "@primer/octicons-react";
 
 type RecipeListProps = {
   meals: Meal[];
@@ -22,15 +23,38 @@ const RecipeList: React.FC<RecipeListProps> = React.memo(
         {meals.map((meal) => {
           return (
             <li key={meal.idMeal}>
-              <div className="bg-white border-2 mb-2 border-black py-4 px-2 grid grid-cols-4 place-content-start">
+              <div className="bg-white rounded-bl-sm border-2 mb-2 border-black py-4 px-2 grid grid-cols-6 place-content-start">
                 <div className="col-span-1">
                   <img
                     src={meal.strMealThumb}
                     alt={meal.strMeal}
-                    className="w-10 h-10"
+                    className="w-12 h-12"
                   />
                 </div>
-                <div className="col-span-3">{meal.strMeal}</div>
+                <div className="col-span-5 pl-2 flex flex-col -mt-2  place-content-start">
+                  <div className="flex flex-row items-center mb-2 justify-between">
+                    <h2 className="text-md font-bold">{meal.strMeal}</h2>
+                    <span className="text-xs flex items-center justify-start">
+                      <DotFillIcon fill="green" size={12} />
+                      {meal.strCategory}
+                    </span>
+                  </div>
+                  <div className="flex flex-row">
+                    {/* <span className="py-0.5 px-2 text-xs font-bold border-2 rounded-sm bg-blue-600 mr-2 ">
+                      {meal.strCategory}
+                    </span> */}
+                    <span className="mr-2 py-0.5 px-2 text-xs font-bold border-2 rounded-sm bg-amber-600 ">
+                      {meal.strArea}
+                    </span>
+                    {meal?.strTags?.split(",").map((tag) => {
+                      return (
+                        <span className="mr-2 py-0.5 px-2 text-xs font-bold border-2 rounded-sm bg-indigo-400">
+                          {tag}
+                        </span>
+                      );
+                    })}
+                  </div>
+                </div>
               </div>
             </li>
           );
