@@ -1,18 +1,19 @@
 import { queryOptions } from "@tanstack/react-query";
 
-export default function searchQueryOptions() {
+export default function searchQueryOptions(term: string) {
   return queryOptions({
-    queryKey: ["recipes"],
-    queryFn: fetchRecipes,
-    enabled: false,
+    queryKey: ["recipes", term],
+    queryFn: () => fetchRecipes(term),
+    enabled: !!term,
+    staleTime: 1000,
+    refetchOnWindowFocus: false,
+    placeholderData: (previousData) => previousData,
   });
 }
 
-const fetchRecipes = async (): Promise<MealsResponse> => {
+const fetchRecipes = async (term: string): Promise<MealsResponse> => {
   await new Promise((resolve) => setTimeout(resolve, 500));
-
-  const response = await fetch("mealdb/search.php?s=blargh");
-
+  const response = await fetch(`mealdb/search.php?s=${term}`);
   return await response.json();
 };
 
@@ -20,7 +21,7 @@ type MealsResponse = {
   meals: Meal[];
 };
 
-type Meal = {
+export type Meal = {
   idMeal: string;
   strMeal: string;
   strDrinkAlternate: string | null;

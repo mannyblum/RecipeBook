@@ -2,7 +2,7 @@ import RecipeBook from "./components/RecipeBook";
 
 function App() {
   return (
-    <div className="bg-amber-50 h-screen py-20">
+    <div className="bg-amber-50 h-screen py-2 md:py-20">
       <RecipeBook />
     </div>
   );
