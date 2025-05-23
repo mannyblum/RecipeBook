@@ -1,9 +1,15 @@
+import { Route, Routes } from "react-router";
 import RecipeBook from "./components/RecipeBook";
+import RecipeDetails from "./components/RecipeDetails";
 
 function App() {
   return (
-    <div className="bg-amber-50 h-screen py-2 md:py-20">
-      <RecipeBook />
+    <div className="bg-amber-50 h-screen py-2 pb-4 md:py-20">
+      <Routes>
+        <Route index element={<RecipeBook />} />
+        <Route path="details/:mealId" element={<RecipeDetails />} />
+      </Routes>
+      {/* <RecipeBook /> */}
     </div>
   );
 }
@@ -18,13 +24,13 @@ export default App;
 // 2. 🌐 API Integration
 //  [x] Use a free public recipe API (e.g. TheMealDB or Edamam)
 //  [x] Make API call on search submission
-//  [ ] Show a loading indicator while fetching data
+//  [x] Show a loading indicator while fetching data
 //  [ ] Display a friendly message if no results are found
 //
 // 3. 📄 Results Display
-//  [ ] Render a list/grid of recipe cards:
-//  [ ] Recipe image (thumbnail)
-//  [ ] Recipe title
+//  [x] Render a list/grid of recipe cards:
+//  [x] Recipe image (thumbnail)
+//  [x] Recipe title
 //  [ ] Short summary or category (if available)
 //  [ ] Make sure the results are responsive (mobile-first)
 //
