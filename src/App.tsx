@@ -35,11 +35,11 @@ export default App;
 //  [ ] Make sure the results are responsive (mobile-first)
 //
 // 4. 🔗 Recipe Detail View
-//  [ ] Clicking a recipe opens a detailed view (modal, drawer, or separate page/route):
-//  [ ] Full recipe title
-//  [ ] Full-size image
+//  [x] Clicking a recipe opens a detailed view (modal, drawer, or separate page/route):
+//  [x] Full recipe title
+//  [x] Full-size image
 //  [ ] List of ingredients
-//  [ ] Instructions or cooking steps
+//  [x] Instructions or cooking steps
 //  [ ] Optional: video or source link (if available)
 //  [ ] "Back to search results" button or modal close
 //
