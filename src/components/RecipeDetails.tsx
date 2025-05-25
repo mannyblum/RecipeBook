@@ -1,26 +1,65 @@
-import { useEffect, useRef, useState, type ReactNode } from "react";
-import { useLocation } from "react-router";
+import { useEffect, useRef, useState, type JSX, type ReactNode } from "react";
+import { useLocation, useNavigate } from "react-router";
 
 import * as motion from "motion/react-client";
+import { ChevronLeftIcon } from "@primer/octicons-react";
 
 const RecipeDetails = () => {
-  const location = useLocation();
+  const {
+    state: { meal },
+  } = useLocation();
+
+  const navigate = useNavigate();
 
   const [selectedTab, setSelectedTab] = useState<string>("instructions");
+
+  const renderIngredientsWithMeasures = () => {
+    const listItems: JSX.Element[] = [];
+
+    // There are up to 20 ingredients/measures in TheMealDB API
+    for (let i = 1; i <= 20; i++) {
+      const ingredientKey = `strIngredient${i}` as keyof typeof meal;
+      const measureKey = `strMeasure${i}` as keyof typeof meal;
+
+      const ingredient = meal[ingredientKey];
+      const measure = meal[measureKey];
+
+      // Only add if there's a valid ingredient (ignore empty or null)
+      if (ingredient && ingredient.trim() !== "") {
+        listItems.push(
+          <li key={i} className="flex items-center justify-between">
+            <p className="text-md text-black font-medium">
+              {ingredient.trim()}
+            </p>
+            <p className="text-xs text-gray-500">{measure?.trim()}</p>
+          </li>
+        );
+      }
+    }
+
+    return <ul className="w-full">{listItems}</ul>;
+  };
 
   return (
     <div>
       <div className="m-4">
-        <h3 className="font-bold text-4xl">{location.state.meal.strMeal}</h3>
+        <button
+          className="font-bold uppercase mb-2 flex items-center py-1 px-2 bg-white text-sm border-2 rounded-sm border-black text-black cursor-pointer shadow-[2px_2px_0px_rgba(0,0,0,1)] active:bg-amber-500 active:shadow-none active:transform active:translate-[2px]"
+          onClick={() => navigate(-1)}
+        >
+          <ChevronLeftIcon size={16} />
+          Back
+        </button>
+        <h3 className="font-bold text-4xl">{meal.strMeal}</h3>
       </div>
       <div
         id="thumb"
         className="max-h-48 box-border p-0.5 max-w-fit mb-4 mx-4 rounded-lg border-2 border-black"
       >
         <img
-          className="max-h-24 w-96 object-cover rounded-lg"
-          src={location.state.meal.strMealThumb}
-          alt={location.state.meal.strMeal}
+          className="max-h-44 w-96 object-cover rounded-lg"
+          src={meal.strMealThumb}
+          alt={meal.strMeal}
         />
       </div>
       <TabGroup onTabChange={setSelectedTab} />
@@ -34,13 +73,13 @@ const RecipeDetails = () => {
             selectedTab === "instructions" ? "block" : "hidden"
           }`}
         >
-          {location.state.meal.strInstructions}
+          {meal.strInstructions}
         </div>
         <div
           id="tab_2_content"
           className={`${selectedTab === "ingredients" ? "block" : "hidden"}`}
         >
-          content 2
+          <div className="flex">{renderIngredientsWithMeasures()}</div>
         </div>
       </div>
     </div>
@@ -63,7 +102,7 @@ const TabGroup = ({ onTabChange }: TabGroupProps) => {
   const [selectedTab, setSelectedTab] = useState<string>("instructions");
 
   const [position, setPosition] = useState<PositionProps>({
-    left: 0,
+    left: 4,
     width: 100,
     opacity: 1,
   });
@@ -79,6 +118,7 @@ const TabGroup = ({ onTabChange }: TabGroupProps) => {
     >
       <Tab
         position={position}
+        selectedTab={selectedTab}
         setPosition={setPosition}
         setSelectedTab={setSelectedTab}
         name="instructions"
@@ -87,6 +127,7 @@ const TabGroup = ({ onTabChange }: TabGroupProps) => {
       </Tab>
       <Tab
         position={position}
+        selectedTab={selectedTab}
         setPosition={setPosition}
         setSelectedTab={setSelectedTab}
         name="ingredients"
@@ -102,6 +143,7 @@ const TabGroup = ({ onTabChange }: TabGroupProps) => {
 type TabProps = {
   children: ReactNode;
   position: PositionProps;
+  selectedTab: string;
   setPosition: (position: PositionProps) => void;
   setSelectedTab: (name: string) => void;
   name: string;
@@ -111,6 +153,7 @@ const Tab = ({
   children,
   position,
   setPosition,
+  selectedTab,
   setSelectedTab,
   name,
 }: TabProps) => {
@@ -143,7 +186,13 @@ const Tab = ({
         });
       }}
     >
-      <p className="relative py-1 text-sm z-10 text-center block text-black">
+      <p
+        className={`relative uppercase py-1 text-sm z-10 text-center block text-black ${
+          ref.current?.textContent?.toLowerCase() === selectedTab.toLowerCase()
+            ? "font-bold"
+            : ""
+        }`}
+      >
         {children}
       </p>
     </li>

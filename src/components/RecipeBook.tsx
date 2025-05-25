@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { ClipLoader } from "react-spinners";
 
@@ -10,7 +10,7 @@ import searchQueryOptions, {
   type Meal,
 } from "../queryOptions/searchQueryOptions";
 import { DotFillIcon } from "@primer/octicons-react";
-import { Link } from "react-router";
+import { Link, useSearchParams } from "react-router";
 
 type RecipeListProps = {
   meals: Meal[];
@@ -18,12 +18,11 @@ type RecipeListProps = {
 
 const RecipeList: React.FC<RecipeListProps> = React.memo(
   ({ meals }) => {
-    console.log("list");
     return (
       <ul className="mx-8 mt-4">
-        {meals.map((meal) => {
+        {meals.map((meal, id) => {
           return (
-            <li key={meal.idMeal}>
+            <li key={`${meal.idMeal}-${id}`}>
               <Link
                 to={`details/${meal.idMeal}`}
                 className="text-black!"
@@ -54,7 +53,10 @@ const RecipeList: React.FC<RecipeListProps> = React.memo(
                       </span>
                       {meal?.strTags?.split(",").map((tag) => {
                         return (
-                          <span className="mr-2 mb-2 py-0.5 px-2 text-xs font-bold border-2 rounded-sm bg-indigo-400">
+                          <span
+                            key={tag}
+                            className="mr-2 mb-2 py-0.5 px-2 text-xs font-bold border-2 rounded-sm bg-indigo-400"
+                          >
                             {tag}
                           </span>
                         );
@@ -79,15 +81,30 @@ function timeout(delay: number) {
 const RecipeBook = () => {
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [inputValue, setInputValue] = useState<string>("");
+  const [searchParams, setSearchParams] = useSearchParams();
 
   const { isFetching, isSuccess, isError, data, error, refetch } = useQuery(
     searchQueryOptions(searchTerm)
   );
 
+  const term = searchParams.get("term") || "";
+
+  useEffect(() => {
+    if (!data) {
+      setSearchTerm(term);
+      refetch();
+    }
+
+    if (term.length > 0) {
+      setInputValue(term);
+    }
+  }, [term]);
+
   const handleSearchSubmit = async () => {
     if (inputValue.length === 0) return;
 
     setSearchTerm(inputValue);
+    setSearchParams({ term: inputValue });
     // timeout(500);
     await refetch();
   };
@@ -95,10 +112,6 @@ const RecipeBook = () => {
   if (isError) {
     return <span>Error: {error.message}</span>;
   }
-
-  // console.log("isSuccess", isSuccess);
-  // console.log("isFetching", isFetching);
-  // console.log("data", data);
 
   const renderRecipeList = () => {
     if (!isSuccess && !isFetching && !data) {
@@ -117,7 +130,7 @@ const RecipeBook = () => {
       );
     }
 
-    if (isSuccess && !isFetching && data.meals) {
+    if (isSuccess && !isFetching && data?.meals) {
       return <RecipeList meals={data.meals} />;
     }
   };

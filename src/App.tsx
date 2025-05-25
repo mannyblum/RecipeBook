@@ -18,8 +18,8 @@ export default App;
 
 // 1. 🔍 Search Functionality
 //  [x] Input field to search recipes by keyword (e.g. “chicken”, “pasta”)
-//  [ ] Submit button or search-on-type functionality (debounced)
-//  [ ] Handle empty or invalid searches (show appropriate message)
+//  [x] Submit button or search-on-type functionality (debounced)
+//  [x] Handle empty or invalid searches (show appropriate message)
 //
 // 2. 🌐 API Integration
 //  [x] Use a free public recipe API (e.g. TheMealDB or Edamam)

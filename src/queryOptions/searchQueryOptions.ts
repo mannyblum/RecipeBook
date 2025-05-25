@@ -3,9 +3,14 @@ import { queryOptions } from "@tanstack/react-query";
 export default function searchQueryOptions(term: string) {
   return queryOptions({
     queryKey: ["recipes", term],
-    queryFn: () => fetchRecipes(term),
+    queryFn: () => {
+      if (!term) return Promise.resolve(null);
+
+      return fetchRecipes(term);
+    },
     enabled: !!term,
-    staleTime: 1000,
+    staleTime: 1000 * 60 * 5,
+    gcTime: 1000 * 60 * 10,
     refetchOnWindowFocus: false,
     placeholderData: (previousData) => previousData,
   });
