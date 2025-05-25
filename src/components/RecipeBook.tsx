@@ -12,7 +12,6 @@ import searchQueryOptions, {
 } from "../queryOptions/searchQueryOptions";
 import { DotFillIcon } from "@primer/octicons-react";
 import { Link, useSearchParams } from "react-router";
-import { AnimatePresence } from "motion/react";
 
 type RecipeListProps = {
   meals: Meal[];
@@ -23,37 +22,11 @@ type RecipeListItemProps = {
   id: number;
 };
 
-const listVariants = {
-  hidden: {},
-  visible: {
-    transition: {
-      staggerChildren: 0.1, // delay between children
-    },
-  },
-};
-
-const itemVariants = {
-  hidden: { opacity: 0, y: 10 },
-  visible: { opacity: 1, y: 0 },
-  exit: { opacity: 0, y: -10 },
-};
-
 const RecipeListItem = ({ meal, id }: RecipeListItemProps) => {
   return (
     <motion.li
       key={`${meal.idMeal}-${id}`}
       className="relative"
-      // variants={itemVariants}
-      // exit="exit"
-      // animate={{
-      //   height: "auto",
-      //   opacity: 1,
-      //   transition: {
-      //     type: "spring",
-      //     bounce: 0.2,
-      //     opacity: { delay: 0.1 },
-      //   },
-      // }}
       initial={{ opacity: 0, y: -10 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{
@@ -112,21 +85,15 @@ const RecipeList: React.FC<RecipeListProps> = React.memo(
     return (
       <div>
         <div className="mx-8 mt-1 mb-2 px-1">
-          <p className="text-sm font-bold">Found {meals.length} meals </p>
+          <p className="text-sm font-light text-right">
+            <span className="font-bold">{meals.length}</span> Results found{" "}
+          </p>
         </div>
 
-        <ul
-          className="mx-8 mt-4"
-          // initial="hidden"
-          // animate="visible"
-          // exit="hidden"
-          // variants={listVariants}
-        >
-          {/* <AnimatePresence> */}
+        <ul className="mx-8 mt-4">
           {meals.map((meal, id) => {
             return <RecipeListItem key={meal.idMeal} meal={meal} id={id} />;
           })}
-          {/* </AnimatePresence> */}
         </ul>
       </div>
     );

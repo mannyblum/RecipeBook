@@ -1,15 +1,34 @@
-import { Route, Routes } from "react-router";
+import { Route, Routes, useLocation, useNavigate } from "react-router";
 import RecipeBook from "./components/RecipeBook";
 import RecipeDetails from "./components/RecipeDetails";
+import { AnimatePresence } from "motion/react";
+
+import { ChevronLeftIcon } from "@primer/octicons-react";
 
 function App() {
+  const location = useLocation();
+  const navigate = useNavigate();
+
   return (
     <div className="bg-amber-50 h-screen py-2 pb-4 md:py-20">
-      <Routes>
-        <Route index element={<RecipeBook />} />
-        <Route path="details/:mealId" element={<RecipeDetails />} />
-      </Routes>
-      {/* <RecipeBook /> */}
+      <header className="mx-4 mb-2 flex flex-row items-center justify-between">
+        {location.pathname !== "/" && (
+          <button
+            className="font-bold uppercased flex items-center py-1 px-1 bg-white text-sm border-2 rounded-sm border-black text-black cursor-pointer shadow-[2px_2px_0px_rgba(0,0,0,1)] active:bg-amber-500 active:shadow-none active:transform active:translate-[2px]"
+            onClick={() => navigate(-1)}
+          >
+            <ChevronLeftIcon size={16} />
+            {/* Back */}
+          </button>
+        )}
+        <h1 className="antonio mx-auto text-center">RecipeBook</h1>
+      </header>
+      <AnimatePresence mode="wait">
+        <Routes location={location} key={location.pathname}>
+          <Route index element={<RecipeBook />} />
+          <Route path="details/:mealId" element={<RecipeDetails />} />
+        </Routes>
+      </AnimatePresence>
     </div>
   );
 }

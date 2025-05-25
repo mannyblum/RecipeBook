@@ -1,15 +1,12 @@
 import { useEffect, useRef, useState, type JSX, type ReactNode } from "react";
-import { useLocation, useNavigate } from "react-router";
+import { useLocation } from "react-router";
 
 import * as motion from "motion/react-client";
-import { ChevronLeftIcon } from "@primer/octicons-react";
 
 const RecipeDetails = () => {
   const {
     state: { meal },
   } = useLocation();
-
-  const navigate = useNavigate();
 
   const [selectedTab, setSelectedTab] = useState<string>("instructions");
 
@@ -43,13 +40,6 @@ const RecipeDetails = () => {
   return (
     <div>
       <div className="m-4">
-        <button
-          className="font-bold uppercase mb-2 flex items-center py-1 px-2 bg-white text-sm border-2 rounded-sm border-black text-black cursor-pointer shadow-[2px_2px_0px_rgba(0,0,0,1)] active:bg-amber-500 active:shadow-none active:transform active:translate-[2px]"
-          onClick={() => navigate(-1)}
-        >
-          <ChevronLeftIcon size={16} />
-          Back
-        </button>
         <h3 className="font-bold text-4xl">{meal.strMeal}</h3>
       </div>
       <div
