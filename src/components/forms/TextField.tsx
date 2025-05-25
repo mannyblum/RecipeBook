@@ -1,3 +1,5 @@
+import { XIcon } from "@primer/octicons-react";
+
 type TextFieldProps = {
   label?: string;
   placeholder?: string;
@@ -21,6 +23,10 @@ const TextField = ({
     }
   };
 
+  const handleClearInput = () => {
+    onChange("");
+  };
+
   return (
     <div className="mx-8 py-2 w-full flex flex-col">
       {label && (
@@ -28,15 +34,25 @@ const TextField = ({
           {label}
         </label>
       )}
-      <input
-        type="text"
-        placeholder={placeholder}
-        value={value}
-        onKeyDown={handleKeyDown}
-        onChange={({ target: { value } }) => onChange(value)}
-        className="shadow-[2px_2px_0px_rgba(0,0,0,1)] border-2 border-black w-full rounded-sm py-4 md:py-2 px-4 focus:ring-2 focus:ring-offset-2 focus:ring-black focus:outline-hidden bg-white"
-        {...rest}
-      />
+      <div id="input-wrapper" className="relative">
+        <input
+          type="text"
+          placeholder={placeholder}
+          value={value}
+          onKeyDown={handleKeyDown}
+          onChange={({ target: { value } }) => onChange(value)}
+          className="border-2 border-black w-full rounded-md py-4 md:py-2 px-4 focus:ring-2 focus:ring-offset-2 focus:ring-black focus:outline-hidden bg-white"
+          {...rest}
+        />
+        {value.length > 0 && (
+          <div
+            onClick={handleClearInput}
+            className="z-10 absolute top-5/16 right-4 p-1 flex items-center justify-center bg-red-400 active:bg-red-500 hover:bg-red-500 border-2 rounded-full cursor-pointer"
+          >
+            <XIcon size={16} />
+          </div>
+        )}
+      </div>
     </div>
   );
 };

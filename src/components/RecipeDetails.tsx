@@ -98,6 +98,7 @@ type PositionProps = {
   opacity: number;
 };
 
+// TODO: move to own component file
 const TabGroup = ({ onTabChange }: TabGroupProps) => {
   const [selectedTab, setSelectedTab] = useState<string>("instructions");
 
