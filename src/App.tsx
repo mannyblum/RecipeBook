@@ -10,7 +10,7 @@ function App() {
   const navigate = useNavigate();
 
   return (
-    <div className="bg-amber-50 h-screen py-2 pb-4 md:py-20">
+    <div className="bg-amber-50 h-screen py-2 pb-4 ">
       <header className="mx-4 mb-2 flex flex-row items-center justify-between">
         {location.pathname !== "/" && (
           <button

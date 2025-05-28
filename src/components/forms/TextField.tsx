@@ -47,7 +47,7 @@ const TextField = ({
         {value.length > 0 && (
           <div
             onClick={handleClearInput}
-            className="z-10 absolute top-5/16 right-4 p-1 flex items-center justify-center bg-red-400 active:bg-red-500 hover:bg-red-500 border-2 rounded-full cursor-pointer"
+            className="z-10 absolute top-2 right-4 p-1 flex items-center justify-center bg-red-400 active:bg-red-500 hover:bg-red-500 border-2 rounded-full cursor-pointer"
           >
             <XIcon size={16} />
           </div>

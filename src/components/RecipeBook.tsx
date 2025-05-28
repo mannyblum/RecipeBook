@@ -1,105 +1,12 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { ClipLoader } from "react-spinners";
-import * as motion from "motion/react-client";
-
-import { isEqual } from "lodash";
 
 import TextField from "./forms/TextField";
 
-import searchQueryOptions, {
-  type Meal,
-} from "../queryOptions/searchQueryOptions";
-import { DotFillIcon } from "@primer/octicons-react";
-import { Link, useSearchParams } from "react-router";
-
-type RecipeListProps = {
-  meals: Meal[];
-};
-
-type RecipeListItemProps = {
-  meal: Meal;
-  id: number;
-};
-
-const RecipeListItem = ({ meal, id }: RecipeListItemProps) => {
-  return (
-    <motion.li
-      key={`${meal.idMeal}-${id}`}
-      className="relative"
-      initial={{ opacity: 0, y: -10 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{
-        duration: 0.25,
-        delay: id * 0.2, // ← delay each item based on index
-      }}
-    >
-      <Link
-        to={`details/${meal.idMeal}`}
-        className="text-black!"
-        state={{ meal: meal }}
-      >
-        <div className="bg-white rounded-md border-2 mb-2 border-black py-4 px-2 grid grid-cols-6 place-content-start">
-          <div className="col-span-1">
-            <img
-              src={meal.strMealThumb}
-              alt={meal.strMeal}
-              className="w-12 h-12"
-            />
-          </div>
-          <div className="col-span-5 pl-2 flex flex-col -mt-2  place-content-start">
-            <div className="flex flex-row items-center mb-2 justify-between">
-              <h2 className="text-md font-bold">{meal.strMeal}</h2>
-              <span className="text-xs flex items-center justify-start">
-                <DotFillIcon fill="green" size={12} />
-                {meal.strCategory}
-              </span>
-            </div>
-            <div className="flex flex-row flex-wrap">
-              {/* <span className="py-0.5 px-2 text-xs font-bold border-2 rounded-sm bg-blue-600 mr-2 ">
-                      {meal.strCategory}
-                    </span> */}
-              <span className="mr-2 mb-2 py-0.5 px-2 text-xs font-bold border-2 rounded-sm bg-amber-600 ">
-                {meal.strArea}
-              </span>
-              {meal?.strTags?.split(",").map((tag) => {
-                return (
-                  <span
-                    key={tag}
-                    className="mr-2 mb-2 py-0.5 px-2 text-xs font-bold border-2 rounded-sm bg-indigo-400"
-                  >
-                    {tag}
-                  </span>
-                );
-              })}
-            </div>
-          </div>
-        </div>
-      </Link>
-    </motion.li>
-  );
-};
-
-const RecipeList: React.FC<RecipeListProps> = React.memo(
-  ({ meals }) => {
-    return (
-      <div>
-        <div className="mx-8 mt-1 mb-2 px-1">
-          <p className="text-sm font-light text-right">
-            <span className="font-bold">{meals.length}</span> Results found{" "}
-          </p>
-        </div>
-
-        <ul className="mx-8 mt-4">
-          {meals.map((meal, id) => {
-            return <RecipeListItem key={meal.idMeal} meal={meal} id={id} />;
-          })}
-        </ul>
-      </div>
-    );
-  },
-  (prevProps, nextProps) => isEqual(prevProps.meals, nextProps.meals)
-);
+import searchQueryOptions from "../queryOptions/searchQueryOptions";
+import { useSearchParams } from "react-router";
+import RecipeList from "./RecipeList";
 
 function timeout(delay: number) {
   return new Promise((res) => setTimeout(res, delay));
@@ -140,10 +47,14 @@ const RecipeBook = () => {
     return <span>Error: {error.message}</span>;
   }
 
+  console.log("isSuccess", isSuccess);
+  console.log("isFetching", isFetching);
+  console.log("data", data);
+
   const renderRecipeList = () => {
-    if (!isSuccess && !isFetching && !data) {
+    if (isSuccess && !isFetching && !data) {
       return (
-        <div className="mx-8 mt-4 bg-white border-2 mb-2 border-black py-4 px-2">
+        <div className="mx-8 mt-4 bg-white border-2 mb-2 border-black py-4 px-2 rounded-md">
           Start Search
         </div>
       );
