@@ -47,10 +47,6 @@ const RecipeBook = () => {
     return <span>Error: {error.message}</span>;
   }
 
-  console.log("isSuccess", isSuccess);
-  console.log("isFetching", isFetching);
-  console.log("data", data);
-
   const renderRecipeList = () => {
     if (isSuccess && !isFetching && !data) {
       return (
@@ -74,25 +70,27 @@ const RecipeBook = () => {
   };
 
   return (
-    <div className="flex justify-center w-full md:w-[75%] flex-col grow mx-auto">
-      <div className="flex justify-center">
-        <TextField
-          value={inputValue}
-          onChange={(val) => setInputValue(val)}
-          onKeyDown={handleSearchSubmit}
-          placeholder="Search"
-        />
+    <>
+      <div className="flex justify-center w-full md:w-[75%] flex-col grow mx-auto">
+        <div className="flex justify-center">
+          <TextField
+            value={inputValue}
+            onChange={(val) => setInputValue(val)}
+            onKeyDown={handleSearchSubmit}
+            placeholder="Search"
+          />
+        </div>
+        <div className="overflow-y-auto">
+          {isFetching ? (
+            <div className="mx-8 mt-4  mb-2  py-4 px-2 text-center">
+              <ClipLoader speedMultiplier={0.6} />
+            </div>
+          ) : (
+            renderRecipeList()
+          )}
+        </div>
       </div>
-      <div className="overflow-y-auto">
-        {isFetching ? (
-          <div className="mx-8 mt-4  mb-2  py-4 px-2 text-center">
-            <ClipLoader speedMultiplier={0.6} />
-          </div>
-        ) : (
-          renderRecipeList()
-        )}
-      </div>
-    </div>
+    </>
   );
 };
 

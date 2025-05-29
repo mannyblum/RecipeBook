@@ -1,13 +1,11 @@
 import { useEffect, useRef, useState, type JSX, type ReactNode } from "react";
-import { useLocation } from "react-router";
 
 import * as motion from "motion/react-client";
 import React from "react";
+import { useMeal } from "../context/RecipeBookContext";
 
 const RecipeDetails = () => {
-  const {
-    state: { meal },
-  } = useLocation();
+  const { meal } = useMeal();
 
   const [selectedTab, setSelectedTab] = useState<string>("instructions");
 
