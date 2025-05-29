@@ -1,7 +1,8 @@
-import { DotFillIcon } from "@primer/octicons-react";
-import { motion } from "motion/react";
-import type { Meal } from "../queryOptions/searchQueryOptions";
-import { useMeal } from "../context/RecipeBookContext";
+import { DotFillIcon } from '@primer/octicons-react';
+import { motion } from 'motion/react';
+
+import { useMeal } from '../context/RecipeBookContext';
+import type { Meal } from '../queryOptions/searchQueryOptions';
 
 type RecipeListItemProps = {
   meal: Meal;
@@ -49,7 +50,7 @@ const RecipeListItem = ({ meal, id }: RecipeListItemProps) => {
             <span className="mr-2 mb-2 py-0.5 px-2 text-xs font-bold border-2 rounded-sm bg-amber-600 ">
               {meal.strArea}
             </span>
-            {meal?.strTags?.split(",").map((tag) => {
+            {meal?.strTags?.split(',').map((tag) => {
               return (
                 <span
                   key={tag}

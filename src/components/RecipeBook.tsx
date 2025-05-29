@@ -1,27 +1,27 @@
-import { useEffect, useState } from "react";
-import { useQuery } from "@tanstack/react-query";
-import { ClipLoader } from "react-spinners";
+import { useQuery } from '@tanstack/react-query';
+import { motion } from 'motion/react';
+import { useEffect, useState } from 'react';
+import { useSearchParams } from 'react-router';
+import { ClipLoader } from 'react-spinners';
 
-import TextField from "./forms/TextField";
-
-import searchQueryOptions from "../queryOptions/searchQueryOptions";
-import { useSearchParams } from "react-router";
-import RecipeList from "./RecipeList";
+import searchQueryOptions from '../queryOptions/searchQueryOptions';
+import RecipeList from './RecipeList';
+import TextField from './forms/TextField';
 
 function timeout(delay: number) {
   return new Promise((res) => setTimeout(res, delay));
 }
 
 const RecipeBook = () => {
-  const [searchTerm, setSearchTerm] = useState<string>("");
-  const [inputValue, setInputValue] = useState<string>("");
+  const [searchTerm, setSearchTerm] = useState<string>('');
+  const [inputValue, setInputValue] = useState<string>('');
   const [searchParams, setSearchParams] = useSearchParams();
 
   const { isFetching, isSuccess, isError, data, error, refetch } = useQuery(
-    searchQueryOptions(searchTerm)
+    searchQueryOptions(searchTerm),
   );
 
-  const term = searchParams.get("term") || "";
+  const term = searchParams.get('term') || '';
 
   useEffect(() => {
     if (!data) {
@@ -70,8 +70,11 @@ const RecipeBook = () => {
   };
 
   return (
-    <>
+    <motion.div>
       <div className="flex justify-center w-full md:w-[75%] flex-col grow mx-auto">
+        <header className="mx-4 mb-2 flex flex-row items-center justify-between">
+          <h1 className="antonio mx-auto text-center">RecipeBook</h1>
+        </header>
         <div className="flex justify-center">
           <TextField
             value={inputValue}
@@ -90,7 +93,7 @@ const RecipeBook = () => {
           )}
         </div>
       </div>
-    </>
+    </motion.div>
   );
 };
 

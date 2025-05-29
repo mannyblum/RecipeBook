@@ -1,19 +1,14 @@
-import { Route, Routes, useLocation } from "react-router";
-import { AnimatePresence } from "motion/react";
+import { Route, Routes } from 'react-router';
 
-import BookProvider from "./context/RecipeBookContext";
-import Home from "./Home";
+import Home from './Home';
+import BookProvider from './context/RecipeBookContext';
 
 function App() {
-  const location = useLocation();
-
   return (
     <BookProvider>
-      <AnimatePresence mode="wait">
-        <Routes location={location} key={location.pathname}>
-          <Route index element={<Home />} />
-        </Routes>
-      </AnimatePresence>
+      <Routes location={location} key={location.pathname}>
+        <Route index element={<Home />} />
+      </Routes>
     </BookProvider>
   );
 }

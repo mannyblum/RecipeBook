@@ -1,13 +1,14 @@
-import { useEffect, useRef, useState, type JSX, type ReactNode } from "react";
+import { ChevronLeftIcon } from '@primer/octicons-react';
+import * as motion from 'motion/react-client';
+import { type JSX, type ReactNode, useEffect, useRef, useState } from 'react';
+import React from 'react';
 
-import * as motion from "motion/react-client";
-import React from "react";
-import { useMeal } from "../context/RecipeBookContext";
+import { useMeal } from '../context/RecipeBookContext';
 
-const RecipeDetails = () => {
+const RecipeDetails = ({ onClose }: { onClose: () => void }) => {
   const { meal } = useMeal();
 
-  const [selectedTab, setSelectedTab] = useState<string>("instructions");
+  const [selectedTab, setSelectedTab] = useState<string>('instructions');
 
   const renderIngredientsWithMeasures = () => {
     const listItems: JSX.Element[] = [];
@@ -21,14 +22,14 @@ const RecipeDetails = () => {
       const measure = meal[measureKey];
 
       // Only add if there's a valid ingredient (ignore empty or null)
-      if (ingredient && ingredient.trim() !== "") {
+      if (ingredient && ingredient.trim() !== '') {
         listItems.push(
           <li key={i} className="flex items-center justify-between">
             <p className="text-md text-black font-medium">
               {ingredient.trim()}
             </p>
             <p className="text-xs text-gray-500">{measure?.trim()}</p>
-          </li>
+          </li>,
         );
       }
     }
@@ -37,41 +38,59 @@ const RecipeDetails = () => {
   };
 
   return (
-    <div className="flex justify-center flex-col w-full sm:w-[75%] md:w-[75%] mx-auto">
-      <div className="m-4">
-        <h3 className="font-bold text-4xl">{meal.strMeal}</h3>
-      </div>
-      <div
-        id="thumb"
-        className="max-h-48 box-border p-0.5 max-w-fit mb-4 mx-4 rounded-lg border-2 border-black"
-      >
-        <img
-          className="max-h-44 w-screen object-cover rounded-lg"
-          src={meal.strMealThumb}
-          alt={meal.strMeal}
-        />
-      </div>
-      <TabGroup onTabChange={setSelectedTab} />
-      <div
-        id="tabs-content"
-        className="m-4 px-3 py-4 rounded-md text-md bg-white border-2 border-black text-black shadow-[2px_2px_0px_rgba(0,0,0,1)]"
-      >
-        <div
-          id="tab_1_content"
-          className={`whitespace-pre-line ${
-            selectedTab === "instructions" ? "block" : "hidden"
-          }`}
-        >
-          {meal.strInstructions}
+    <motion.div
+      key="recipe-details"
+      className="z-50 fixed h-full w-full top-0 left-0 bg-amber-50"
+      initial={{ x: '100vw' }}
+      animate={{ x: 0 }}
+      exit={{ x: '100vw' }}
+      transition={{ duration: 0.3 }}
+    >
+      <div className="flex justify-start flex-col h-full w-full sm:w-[75%] md:w-[75%] mx-auto">
+        <header className="mx-4 mb-2 flex flex-row items-center justify-between">
+          <button
+            className="font-bold uppercased flex items-center py-1 px-1 bg-white text-sm border-2 rounded-sm border-black text-black cursor-pointer shadow-[2px_2px_0px_rgba(0,0,0,1)] active:bg-amber-500 active:shadow-none active:transform active:translate-[2px]"
+            onClick={onClose}
+          >
+            <ChevronLeftIcon size={16} />
+          </button>
+          <h1 className="antonio mx-auto text-center">RecipeBook</h1>
+        </header>
+        <div className="m-4">
+          <h3 className="font-bold text-4xl">{meal.strMeal}</h3>
         </div>
         <div
-          id="tab_2_content"
-          className={`${selectedTab === "ingredients" ? "block" : "hidden"}`}
+          id="thumb"
+          className="max-h-48 box-border p-0.5 max-w-fit mb-4 mx-4 rounded-lg border-2 border-black"
         >
-          <div className="flex">{renderIngredientsWithMeasures()}</div>
+          <img
+            className="max-h-44 w-screen object-cover rounded-lg"
+            src={meal.strMealThumb}
+            alt={meal.strMeal}
+          />
+        </div>
+        <TabGroup onTabChange={setSelectedTab} />
+        <div
+          id="tabs-content"
+          className="m-4 px-3 py-4 rounded-md text-md bg-white border-2 border-black text-black shadow-[2px_2px_0px_rgba(0,0,0,1)]"
+        >
+          <div
+            id="tab_1_content"
+            className={`whitespace-pre-line ${
+              selectedTab === 'instructions' ? 'block' : 'hidden'
+            }`}
+          >
+            {meal.strInstructions}
+          </div>
+          <div
+            id="tab_2_content"
+            className={`${selectedTab === 'ingredients' ? 'block' : 'hidden'}`}
+          >
+            <div className="flex">{renderIngredientsWithMeasures()}</div>
+          </div>
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 };
 
@@ -89,7 +108,7 @@ type PositionProps = {
 };
 
 const TabGroup = ({ onTabChange }: TabGroupProps) => {
-  const [selectedTab, setSelectedTab] = useState<string>("instructions");
+  const [selectedTab, setSelectedTab] = useState<string>('instructions');
 
   const [position, setPosition] = useState<PositionProps>({
     left: 0,
@@ -103,7 +122,7 @@ const TabGroup = ({ onTabChange }: TabGroupProps) => {
 
   const updatePosition = () => {
     const ref =
-      selectedTab === "instructions"
+      selectedTab === 'instructions'
         ? instructionsRef.current
         : ingredientsRef.current;
 
@@ -124,8 +143,8 @@ const TabGroup = ({ onTabChange }: TabGroupProps) => {
   }, [selectedTab]);
 
   useEffect(() => {
-    window.addEventListener("resize", updatePosition);
-    return () => window.removeEventListener("resize", updatePosition);
+    window.addEventListener('resize', updatePosition);
+    return () => window.removeEventListener('resize', updatePosition);
   }, [selectedTab]);
 
   return (
@@ -186,14 +205,14 @@ const Tab = React.forwardRef<HTMLLIElement, TabProps>(
       >
         <p
           className={`relative uppercase py-1 text-sm z-10 text-center block text-black ${
-            name === selectedTab ? "font-bold" : ""
+            name === selectedTab ? 'font-bold' : ''
           }`}
         >
           {children}
         </p>
       </li>
     );
-  }
+  },
 );
 
 type SelectorProps = {
